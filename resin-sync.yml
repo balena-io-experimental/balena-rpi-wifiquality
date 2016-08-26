@@ -1,0 +1,5 @@
+ignore:
+  - .git
+  - img
+  - node_modules
+  - venv
