@@ -48,6 +48,7 @@ var displayWifi = function(status){
   fb.color(r, g, b);
   fb.rect(0, 0, xMax, yMax, true); // Draw a filled rectangle
   fb.color(0, 0, 0);
+  fb.text(xMax/2, yMax/2-24, status.ssid, true, 0);
   fb.text(xMax/2, yMax/2, "Q: "+status.quality+"/70", true, 0);
 }
 
