@@ -1,11 +1,21 @@
+# For Alpine Linux use this line
 FROM resin/%%RESIN_MACHINE_NAME%%-alpine-node
+# For Debian use this line
+# FROM resin/%%RESIN_MACHINE_NAME%%-node
 
 MAINTAINER Gergely Imreh <gergely@resin.io>
 
 ENV INITSYSTEM on
 WORKDIR /usr/src/app
 
+# For Alpine Linux use this:
 RUN apk add --no-cache wireless-tools cairo-dev
+# For Debian use this:
+# RUN apt-get update && \
+#     apt-get install -qy \
+#      libcairo2-dev \
+#      wireless-tools \
+#     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY package.json package.json
 RUN JOBS=MAX npm install --production --unsafe-perm && npm cache clean && rm -rf /tmp/*
