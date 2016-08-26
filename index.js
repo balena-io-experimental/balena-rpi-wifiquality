@@ -5,6 +5,12 @@ var iwconfig = require('wireless-tools/iwconfig'),
 var interface = process.env.INTERFACE || 'wlan0',
     update_period = process.env.PERIOD || 1000;
 
+if (process.env.DEBUG) {
+  DEBUG = true;
+} else {
+  DEBUG = false;
+}
+
 var fb = pitft("/dev/fb1"); // Returns a framebuffer in direct mode.  See the clock.js example for double buffering mode
 // Clear the screen buffer
 fb.clear();
@@ -16,7 +22,9 @@ var getWifiStatus = function(interface) {
     if (err) {
       displayErr("Can't get wifi Q");
     } else {
-      console.log(status);
+      if (DEBUG) {
+        console.log(status);
+      }
       displayWifi(status);
     }
   });
