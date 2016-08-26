@@ -40,7 +40,7 @@ var displayErr = function(message) {
 }
 
 var displayWifi = function(status){
-  fb.font("fantasy", 24, true); // Use the "fantasy" font with size 24, and font weight bold
+  fb.font("fantasy", 24, true); // Use the "fantasy" font with size 24, and font weight bold, if available
   fb.clear();
   var r = 1 - (status.quality / 70),
       g = status.quality / 70,
