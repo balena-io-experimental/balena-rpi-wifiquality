@@ -7,11 +7,13 @@ WORKDIR /usr/src/app
 
 RUN apt-get update && \
     apt-get install -qy \
-     libcairo2-dev
+     libcairo2-dev \
+     wireless-tools \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY package.json package.json
 RUN JOBS=MAX npm install --production --unsafe-perm && npm cache clean && rm -rf /tmp/*
 
 COPY . ./
 
-CMD ["bash", "start.sh"]
+CMD ./prestart.sh && ./start.sh
