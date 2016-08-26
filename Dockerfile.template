@@ -7,12 +7,7 @@ WORKDIR /usr/src/app
 
 RUN apt-get update && \
     apt-get install -qy \
-     libcairo2-dev \
-     libjpeg8-dev \
-     libpango1.0-dev \
-     libgif-dev \
-     build-essential \
-     g++
+     libcairo2-dev
 
 COPY package.json package.json
 RUN JOBS=MAX npm install --production --unsafe-perm && npm cache clean && rm -rf /tmp/*

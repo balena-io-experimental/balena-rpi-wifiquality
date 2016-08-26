@@ -13,6 +13,7 @@
   "author": "Gergely Imreh <gergely@resin.io>",
   "license": "Apache-2.0",
   "dependencies": {
+    "pitft": "git+https://github.com/imrehg/node-pitft.git#conversion",
     "wireless-tools": "^0.18.1"
   }
 }
