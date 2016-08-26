@@ -19,7 +19,7 @@ either application-wide, or per-device:
 * `INTERFACE`: which WiFi interface to monitor, default to `wlan0`
 * `PERIOD`: update period in ms, default to `1000` (that is 1s), seem to work at last as low as `100` (0.1s)
 * `DEBUG`: show WiFi interface scan results in the log, set it to `1` to show, default not to show
-* `ROTATE`: rotate the screen with this many degrees, accepted values are 0, 90, 180, 270. Default is 0 (no rotation).
+* `ROTATE`: rotate the screen with this many degrees, accepted values are `0`, `90`, `180`, `270`. Default is `0` (no rotation).
 
 ## License
 
