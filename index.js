@@ -1,59 +1,48 @@
-var iwconfig = require('wireless-tools/iwconfig');
+var iwconfig = require('wireless-tools/iwconfig'),
+    pitft = require("pitft");
 
+// Get variables
 var interface = process.env.INTERFACE || 'wlan0',
     update_period = process.env.PERIOD || 1000;
 
-
-var get_wifi_status = function(interface) {
-  iwconfig.status(interface, function(err, status) {
-    console.log(status);
-  });
-};
-
-// Run first then repeat
-get_wifi_status(interface);
-var scan = setInterval(get_wifi_status, update_period, interface);
-
-// Check example
-var pitft = require("pitft");
-
 var fb = pitft("/dev/fb1"); // Returns a framebuffer in direct mode.  See the clock.js example for double buffering mode
-
 // Clear the screen buffer
 fb.clear();
-
 var xMax = fb.size().width;
 var yMax = fb.size().height;
 
-for (var n=0; n<250; n++) {
-    var x, y, radius, r, g, b;
+var getWifiStatus = function(interface) {
+  iwconfig.status(interface, function(err, status) {
+    if (err) {
+      displayErr("Can't get wifi Q");
+    } else {
+      console.log(status);
+      displayWifi(status);
+    }
+  });
+};
 
-    x = parseInt(Math.random() * xMax, 10);
-    y = parseInt(Math.random() * yMax, 10);
-    radius = parseInt(Math.random() * yMax / 2, 10);
-
-    // Create a random color
-    r = Math.random();
-    g = Math.random();
-    b = Math.random();
-
-    fb.color(r, g, b);
-    fb.circle(x, y, radius, false, 1); // Draw an outlined circle with a 1 pixel wide border
+var displayErr = function(message) {
+  fb.font("fantasy", 24, true);
+  fb.clear();
+  fb.color(0, 0, 1);
+  fb.rect(0, 0, xMax, yMax, true); // Draw a filled rectangle
+  fb.color(0, 0, 0);
+  fb.text(xMax/2, yMax/2, message, true, 0);
 }
 
-fb.clear();
-
-for (var n=0; n<250; n++) {
-    var x, y, radius, r, g, b;
-
-    x = parseInt(Math.random() * xMax, 10);
-    y = parseInt(Math.random() * yMax, 10);
-    radius = parseInt(Math.random() * yMax / 2, 10);
-
-    r = Math.random();
-    g = Math.random();
-    b = Math.random();
-
-    fb.color(r, g, b);
-    fb.circle(x, y, radius, true); // Draw a filled circle
+var displayWifi = function(status){
+  fb.font("fantasy", 24, true); // Use the "fantasy" font with size 24, and font weight bold
+  fb.clear();
+  var r = 1 - (status.quality / 70),
+      g = status.quality / 70,
+      b = 0;
+  fb.color(r, g, b);
+  fb.rect(0, 0, xMax, yMax, true); // Draw a filled rectangle
+  fb.color(0, 0, 0);
+  fb.text(xMax/2, yMax/2, "Q: "+status.quality+"/70", true, 0);
 }
+
+// Run first then repeat
+getWifiStatus(interface);
+var scan = setInterval(getWifiStatus, update_period, interface);
