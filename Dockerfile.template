@@ -22,4 +22,4 @@ RUN JOBS=MAX npm install --production --unsafe-perm && npm cache clean && rm -rf
 
 COPY . ./
 
-CMD ./prestart.sh && ./start.sh
+CMD ./prestart.sh && npm start
