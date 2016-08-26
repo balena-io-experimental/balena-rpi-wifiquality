@@ -1,0 +1,22 @@
+FROM resin/%%RESIN_MACHINE_NAME%%-node
+
+MAINTAINER Gergely Imreh <gergely@resin.io>
+
+ENV INITSYSTEM on
+WORKDIR /usr/src/app
+
+RUN apt-get update && \
+    apt-get install -qy \
+     libcairo2-dev \
+     libjpeg8-dev \
+     libpango1.0-dev \
+     libgif-dev \
+     build-essential \
+     g++
+
+COPY package.json package.json
+RUN JOBS=MAX npm install --production --unsafe-perm && npm cache clean && rm -rf /tmp/*
+
+COPY . ./
+
+CMD ["bash", "start.sh"]
